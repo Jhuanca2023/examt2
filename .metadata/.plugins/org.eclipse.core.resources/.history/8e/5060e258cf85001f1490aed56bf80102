@@ -1,0 +1,66 @@
+package com.examt2.examt2.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import com.examt2.examt2.model.Libro;
+import com.examt2.examt2.repository.LibroRepository;
+
+import javax.validation.Valid;
+
+@Controller
+@RequestMapping("/libros")
+public class LibroController {
+
+    @Autowired
+    private LibroRepository libroRepository;
+
+    @GetMapping
+    public String listarLibros(Model model) {
+        model.addAttribute("libros", libroRepository.findAll());
+        return "libros/index";  // Ruta a la vista de libros
+    }
+
+    @GetMapping("/crear")
+    public String crearLibroForm(Model model) {
+        model.addAttribute("libro", new Libro()); // Asegúrate de que este objeto se está creando
+        return "libros/form";  // Ruta al formulario de libros
+    }
+
+    @PostMapping("/crear")
+    public String guardarLibro(@ModelAttribute @Valid Libro libro, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("libro", libro); // Asegúrate de volver a enviar el objeto con errores
+            return "libros/form"; // Regresar al formulario si hay errores
+        }
+        libroRepository.save(libro);
+        return "redirect:/libros"; // Redirigir a la lista de libros
+    }
+
+
+    @GetMapping("/editar/{id}")
+    public String editarLibroForm(@PathVariable Long id, Model model) {
+        model.addAttribute("libro", libroRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid libro Id:" + id)));
+        return "libros/form";
+    }
+
+    @PostMapping("/editar/{id}")
+    public String actualizarLibro(@PathVariable Long id, @ModelAttribute @Valid Libro libro, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("libro", libro);
+            return "libros/form"; // Regresar al formulario si hay errores
+        }
+        libro.setId(id);
+        libroRepository.save(libro);
+        return "redirect:/libros";
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminarLibro(@PathVariable Long id) {
+        libroRepository.deleteById(id);
+        return "redirect:/libros";
+    }
+}

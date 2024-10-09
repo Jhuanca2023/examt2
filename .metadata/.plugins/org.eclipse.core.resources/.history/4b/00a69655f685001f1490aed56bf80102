@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Libros</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Lista de Libros</h1>
+        <a href="/libros/crear" class="btn btn-primary">Crear Nuevo Libro</a>
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Nombre del Autor</th>
+                    <th>Apellido del Autor</th>
+                    <th>Categoría</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="libro : ${libros}">
+                    <td th:text="${libro.id}"></td>
+                    <td th:text="${libro.titulo}"></td>
+                    <td th:text="${libro.nombreAutor}"></td>
+                    <td th:text="${libro.apellidoAutor}"></td>
+                    <td th:text="${libro.categoria}"></td>
+                    <td th:text="${libro.precio}"></td>
+                    <td>
+                        <a th:href="@{/libros/editar/{id}(id=${libro.id})}" class="btn btn-warning">Editar</a>
+                        <a th:href="@{/libros/eliminar/{id}(id=${libro.id})}" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

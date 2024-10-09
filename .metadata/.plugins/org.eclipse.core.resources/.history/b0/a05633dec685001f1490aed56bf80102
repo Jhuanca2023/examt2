@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Órdenes</title>
+</head>
+<body>
+    <h1>Órdenes</h1>
+    <a href="/ordenes/crear">Crear Nueva Orden</a>
+    <table>
+        <tr>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+        </tr>
+        <tr th:each="orden : ${ordenes}">
+            <td th:text="${orden.descripcion}"></td>
+            <td th:text="${orden.precio}"></td>
+            <td>
+                <a th:href="@{'/ordenes/editar/' + ${orden.id}}">Editar</a> |
+                <a th:href="@{'/ordenes/eliminar/' + ${orden.id}}">Eliminar</a>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

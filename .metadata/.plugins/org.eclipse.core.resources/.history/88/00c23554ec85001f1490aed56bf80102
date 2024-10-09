@@ -1,0 +1,14 @@
+package com.examt2.examt2.repository;
+
+import com.examt2.examt2.model.Cliente;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ClienteRepository extends JpaRepository<Cliente, Long> {
+    // Definición correcta del método de búsqueda por nombre
+    static Cliente findByNombre(String nombre) {
+		// TODO Auto-generated method stub
+		return null;
+	} // Este método buscará un cliente por su nombre
+}

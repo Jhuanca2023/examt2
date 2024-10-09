@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Crear / Editar Orden</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<style>
+		        body {
+		            /* Establece la imagen de fondo */
+		            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnqVBLl3bZ4bJP3HhTsxc2IR0QPaQYwPlW-g&s'); /* Reemplaza con la URL de tu imagen */
+		            background-size: cover; /* Hace que la imagen cubra toda la pantalla */
+		            background-position: center; /* Centra la imagen */
+		            background-repeat: no-repeat; /* Evita que la imagen se repita */
+		            height: 100vh; /* Asegura que el fondo cubra toda la altura de la ventana */
+		        }
+
+		        .container {
+		            /* Crea un contenedor con un fondo semi-transparente */
+		            background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con 80% de opacidad */
+		            border-radius: 10px; /* Esquinas redondeadas */
+		            padding: 20px; /* Espaciado interno */
+		            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+		        }
+
+		        h1 {
+		            text-align: center; /* Centra el título */
+		        }
+		    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 th:text="${orden.id != null} ? 'Editar Orden' : 'Crear Nueva Orden'"></h1>
+
+        <form th:action="@{/ordenes/crear}" th:object="${orden}" method="post">
+            <div class="form-group">
+                <label>ID del Cliente:</label>
+                <input type="number" th:field="*{clienteId}" class="form-control" required />
+                <div th:if="${#fields.hasErrors('clienteId')}" style="color:red;">
+                    <span th:errors="*{clienteId}"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>ID del Libro:</label>
+                <input type="number" th:field="*{libroId}" class="form-control" required />
+                <div th:if="${#fields.hasErrors('libroId')}" style="color:red;">
+                    <span th:errors="*{libroId}"></span>
+                </div>
+            </div>
+			<div class="form-group">
+			                <label>Fecha de Orden:</label>
+			                <input type="date" name="fechaOrdenStr" class="form-control" required />
+			                <div th:if="${#fields.hasErrors('fechaOrden')}" style="color:red;">
+			                    <span th:errors="*{fechaOrden}"></span>
+			                </div>
+			            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Libros</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            /* Establece la imagen de fondo */
+            background-image: url('URL_DE_TU_IMAGEN');
+            background-size: cover; /* Hace que la imagen cubra toda la pantalla */
+            background-position: center; /* Centra la imagen */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+            height: 100vh; /* Asegura que el fondo cubra toda la altura de la ventana */
+        }
+
+        .container {
+            /* Crea un contenedor con un fondo semi-transparente */
+            background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con 80% de opacidad */
+            border-radius: 10px; /* Esquinas redondeadas */
+            padding: 20px; /* Espaciado interno */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+        }
+
+        h1 {
+            text-align: center; /* Centra el título */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Lista de Libros</h1>
+        <a href="/libros/crear" class="btn btn-primary">Crear Nuevo Libro</a>
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Nombre del Autor</th>
+                    <th>Apellido del Autor</th>
+                    <th>Categoría</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="libro : ${libros}">
+                    <td th:text="${libro.id}"></td>
+                    <td th:text="${libro.titulo}"></td>
+                    <td th:text="${libro.nombreAutor}"></td>
+                    <td th:text="${libro.apellidoAutor}"></td>
+                    <td th:text="${libro.categoria}"></td>
+                    <td th:text="${libro.precio}"></td>
+                    <td>
+                        <a th:href="@{/libros/editar/{id}(id=${libro.id})}" class="btn btn-warning">Editar</a>
+                        <a th:href="@{/libros/eliminar/{id}(id=${libro.id})}" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

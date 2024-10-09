@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulario de Orden</title>
+</head>
+<body>
+    <h1 th:text="${#fields.hasErrors() ? 'Editar Orden' : 'Crear Nueva Orden'}"></h1>
+    <form th:action="@{/ordenes/crear}" th:object="${orden}" method="post">
+        <label>Descripción</label>
+        <input type="text" th:field="*{descripcion}" />
+        <label>Precio</label>
+        <input type="number" step="0.01" th:field="*{precio}" />
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>

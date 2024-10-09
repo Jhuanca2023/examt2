@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Crear / Editar Orden</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 th:text="${orden.id != null} ? 'Editar Orden' : 'Crear Nueva Orden'"></h1>
+
+        <form th:action="@{/ordenes/crear}" th:object="${orden}" method="post">
+            <div class="form-group">
+                <label>Nombre del Cliente:</label>
+                <input type="text" name="nombreCliente" class="form-control" required />
+                <div th:if="${#fields.hasErrors('nombreCliente')}" style="color:red;">
+                    <span th:errors="*{nombreCliente}"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Título del Libro:</label>
+                <input type="text" th:field="*{tituloLibro}" class="form-control" required />
+                <div th:if="${#fields.hasErrors('tituloLibro')}" style="color:red;">
+                    <span th:errors="*{tituloLibro}"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Fecha de Orden:</label>
+                <input type="date" th:field="*{fechaOrden}" class="form-control" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+    </div>
+</body>
+</html>

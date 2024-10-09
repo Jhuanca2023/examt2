@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Órdenes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<style>
+	        body {
+	           
+	            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnqVBLl3bZ4bJP3HhTsxc2IR0QPaQYwPlW-g&s'); /* Reemplaza con la URL de tu imagen */
+	            background-size: cover; 
+	            background-position: center; 
+	            background-repeat: no-repeat; 
+	            height: 100vh; 
+	        }
+
+	        .container {
+	           
+	            background-color: rgba(255, 255, 255, 0.8); 
+	            border-radius: 10px; 
+	            padding: 20px;
+	            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+	        }
+
+	        h1 {
+	            text-align: center; 
+	        }
+	    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Lista de Órdenes</h1>
+        <a href="/ordenes/crear" class="btn btn-primary">Crear Nueva Orden</a>
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente ID</th>
+                    <th>Libro ID</th>
+                    <th>Fecha de Orden</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="orden : ${ordenes}">
+                    <td th:text="${orden.id}"></td>
+                    <td th:text="${orden.clienteId}"></td>
+                    <td th:text="${orden.libroId}"></td>
+                    <td th:text="${orden.fechaOrden}"></td>
+                    <td>
+                        <a th:href="@{/ordenes/editar/{id}(id=${orden.id})}" class="btn btn-warning">Editar</a>
+                        <a th:href="@{/ordenes/eliminar/{id}(id=${orden.id})}" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

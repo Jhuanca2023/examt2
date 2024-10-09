@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Órdenes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<style>
+	        body {
+	            /* Establece la imagen de fondo */
+	            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnqVBLl3bZ4bJP3HhTsxc2IR0QPaQYwPlW-g&s'); /* Reemplaza con la URL de tu imagen */
+	            background-size: cover; /* Hace que la imagen cubra toda la pantalla */
+	            background-position: center; /* Centra la imagen */
+	            background-repeat: no-repeat; /* Evita que la imagen se repita */
+	            height: 100vh; /* Asegura que el fondo cubra toda la altura de la ventana */
+	        }
+
+	        .container {
+	            /* Crea un contenedor con un fondo semi-transparente */
+	            background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con 80% de opacidad */
+	            border-radius: 10px; /* Esquinas redondeadas */
+	            padding: 20px; /* Espaciado interno */
+	            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+	        }
+
+	        h1 {
+	            text-align: center; /* Centra el título */
+	        }
+	    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Lista de Órdenes</h1>
+        <a href="/ordenes/crear" class="btn btn-primary">Crear Nueva Orden</a>
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente ID</th>
+                    <th>Libro ID</th>
+                    <th>Fecha de Orden</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="orden : ${ordenes}">
+                    <td th:text="${orden.id}"></td>
+                    <td th:text="${orden.clienteId}"></td>
+                    <td th:text="${orden.libroId}"></td>
+                    <td th:text="${orden.fechaOrden}"></td>
+                    <td>
+                        <a th:href="@{/ordenes/editar/{id}(id=${orden.id})}" class="btn btn-warning">Editar</a>
+                        <a th:href="@{/ordenes/eliminar/{id}(id=${orden.id})}" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

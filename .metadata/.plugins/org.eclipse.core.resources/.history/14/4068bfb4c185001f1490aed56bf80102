@@ -1,0 +1,60 @@
+package com.examt2.examt2.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import com.examt2.examt2.model.Orden;
+import com.examt2.examt2.repository.OrdenRepository;
+
+@Controller
+@RequestMapping("/ordenes")
+public class OrdenController {
+
+    @Autowired
+    private OrdenRepository ordenRepository;
+
+    // Listar órdenes
+    @GetMapping
+    public String listarOrdenes(Model model) {
+        model.addAttribute("ordenes", ordenRepository.findAll());
+        return "ordenes/index";
+    }
+
+    // Formulario para crear una nueva orden
+    @GetMapping("/crear")
+    public String crearOrdenForm(Model model) {
+        model.addAttribute("orden", new Orden());
+        return "ordenes/form";
+    }
+
+    // Guardar una nueva orden
+    @PostMapping("/crear")
+    public String guardarOrden(@ModelAttribute Orden orden) {
+        ordenRepository.save(orden);
+        return "redirect:/ordenes";
+    }
+
+    // Formulario para editar una orden existente
+    @GetMapping("/editar/{id}")
+    public String editarOrdenForm(@PathVariable Long id, Model model) {
+        model.addAttribute("orden", ordenRepository.findById(id).orElseThrow());
+        return "ordenes/form";
+    }
+
+    // Actualizar una orden existente
+    @PostMapping("/editar/{id}")
+    public String actualizarOrden(@PathVariable Long id, @ModelAttribute Orden orden) {
+        orden.setId(id);
+        ordenRepository.save(orden);
+        return "redirect:/ordenes";
+    }
+
+    // Eliminar una orden
+    @GetMapping("/eliminar/{id}")
+    public String eliminarOrden(@PathVariable Long id) {
+        ordenRepository.deleteById(id);
+        return "redirect:/ordenes";
+    }
+}

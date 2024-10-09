@@ -1,0 +1,77 @@
+package com.examt2.examt2.controller;
+
+import com.examt2.examt2.model.Orden;
+import com.examt2.examt2.repository.OrdenRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.Date;
+
+@Controller
+@RequestMapping("/ordenes")
+public class OrdenController {
+
+    @Autowired
+    private OrdenRepository ordenRepository;
+
+    // Mostrar el formulario de creación de una nueva orden
+    @GetMapping("/crear")
+    public String crearOrdenForm(Model model) {
+        model.addAttribute("orden", new Orden()); // Inicializa un nuevo objeto de Orden
+        return "ordenes/form";  // Redirige al formulario para crear una nueva orden
+    }
+
+    // Guardar una nueva orden en la base de datos
+    @PostMapping("/crear")
+    public String guardarOrden(@ModelAttribute @Valid Orden orden, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "ordenes/form"; // Si hay errores de validación, vuelve al formulario
+        }
+
+        // Asigna la fecha actual a la orden
+        orden.setFechaOrden(new Date()); // Esto se puede hacer manualmente, o puedes dejar que se asigne desde el formulario
+
+        // Guarda la orden en la base de datos
+        ordenRepository.save(orden);
+        return "redirect:/ordenes"; // Redirige a la lista de órdenes
+    }
+
+
+    // Listar todas las órdenes
+    @GetMapping
+    public String listarOrdenes(Model model) {
+        model.addAttribute("ordenes", ordenRepository.findAll()); // Pasa todas las órdenes a la vista
+        return "ordenes/index"; // Redirige a la vista de listado de órdenes
+    }
+
+    // Editar una orden existente
+    @GetMapping("/editar/{id}")
+    public String editarOrdenForm(@PathVariable Long id, Model model) {
+        Orden orden = ordenRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ID de orden no válida: " + id)); // Maneja el error si no se encuentra la orden
+        model.addAttribute("orden", orden);
+        return "ordenes/form"; // Redirige al formulario de edición
+    }
+
+    // Actualizar una orden existente
+    @PostMapping("/editar/{id}")
+    public String actualizarOrden(@PathVariable Long id, @ModelAttribute @Valid Orden orden, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "ordenes/form"; // Si hay errores de validación, vuelve al formulario
+        }
+        orden.setId(id); // Establece el ID de la orden
+        ordenRepository.save(orden); // Guarda la orden actualizada en la base de datos
+        return "redirect:/ordenes"; // Redirige a la lista de órdenes
+    }
+
+    // Eliminar una orden
+    @GetMapping("/eliminar/{id}")
+    public String eliminarOrden(@PathVariable Long id) {
+        ordenRepository.deleteById(id); // Elimina la orden por ID
+        return "redirect:/ordenes"; // Redirige a la lista de órdenes
+    }
+}

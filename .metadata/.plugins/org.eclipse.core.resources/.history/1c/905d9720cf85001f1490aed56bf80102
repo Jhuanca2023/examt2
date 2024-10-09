@@ -1,0 +1,45 @@
+package com.examt2.examt2.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import com.examt2.examt2.model.Orden;
+import com.examt2.examt2.repository.OrdenRepository;
+
+import javax.validation.Valid;
+
+@Controller
+@RequestMapping("/ordenes")
+public class OrdenController {
+
+    @Autowired
+    private OrdenRepository ordenRepository;
+
+    // Listar órdenes
+    @GetMapping
+    public String listarOrdenes(Model model) {
+        model.addAttribute("ordenes", ordenRepository.findAll());
+        return "ordenes/index";  // Ruta a la vista de órdenes
+    }
+
+    // Formulario para crear una nueva orden
+    @GetMapping("/crear")
+    public String crearOrdenForm(Model model) {
+        model.addAttribute("orden", new Orden());
+        return "ordenes/form";  // Ruta al formulario de órdenes
+    }
+
+    // Guardar una nueva orden
+    @PostMapping("/crear")
+    public String guardarOrden(@ModelAttribute @Valid Orden orden, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("orden", orden); // Reenvía el objeto con errores
+            return "ordenes/form"; // Regresar al formulario si hay errores
+        }
+        ordenRepository.save(orden);
+        return "redirect:/ordenes"; // Redirigir a la lista de órdenes
+    }
+}

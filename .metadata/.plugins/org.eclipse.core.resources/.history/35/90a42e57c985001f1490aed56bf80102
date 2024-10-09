@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulario de Libro</title>
+</head>
+<body>
+    <h1 th:text="${#fields.hasErrors() ? 'Editar Libro' : 'Crear Nuevo Libro'}"></h1>
+    <form th:action="@{/libros/crear}" th:object="${libro}" method="post">
+        <label>Título</label>
+        <input type="text" th:field="*{titulo}" />
+        <label>Autor</label>
+        <input type="text" th:field="*{autor}" />
+        <label>ISBN</label>
+        <input type="text" th:field="*{isbn}" />
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>
